@@ -113,7 +113,7 @@ class Sender:
     def setACKTime(self):
         self.timer = True
         if self.timer:
-            #time.sleep(self.config.timeout)
+            time.sleep(10)
             self.timeoutACK()
         self.ackReceived()
 

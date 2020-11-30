@@ -7,6 +7,6 @@ sender_port = 8888
 receiver_address = '10.0.2.6'
 receiver_port = 8889
 
-drop_rate = 15
-average_length = 3
+drop_rate = 10
+average_length = 1
 

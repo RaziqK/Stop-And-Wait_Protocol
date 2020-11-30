@@ -27,14 +27,17 @@ class Receiver(Sender):
             packet = UDPTrans.getPacket(self.listen)
             print("Packet Received!")
             logging.info("Packet Received!")
+
             checker = packet.__dict__
+            print("RECEIVED Packet with Sequence Number: ", getattr(packet, "seq_num"))
+            rec_string = "RECEIVED Packet with Sequence Number: " + str(getattr(packet, "seq_num"))
             #print(checker)
-            print("\n\n Packet Data: ")
-            logging.info("Packet Data:")
-            for key, item in checker.items():
-                print(key, item)
-                x = str(key) + ": " + str(item)
-                logging.info(x)
+            # print("\n\n Packet Data: ")
+            # logging.info("Packet Data:")
+            # for key, item in checker.items():
+            #     print(key, item)
+            #     x = str(key) + ": " + str(item)
+            #     logging.info(x)
            
             #print(pprint(vars(packet)))
             
@@ -42,29 +45,38 @@ class Receiver(Sender):
             #print("Packet_Type  :", packet_type)
 
             if packet_type == 4:
+
                 print("End of Transmission")
                 print("All Packets received!")
                 print("Duplicate ACKs: ", dupe_ack_total)
+
                 dupe_ack_str = "Duplicate ACKs: " + str(dupe_ack_total)
                 logging.info("End of Transmission")
                 logging.info("All Packets received!")
                 logging.info(dupe_ack_str)
+
                 self.receiver_check = False
                 break
             elif packet_type == 2:
                 self.seq_num = packet.seq_num
                 ack_packet = self.createPacket(3)
                 self.sendPacket(ack_packet)
-                print("Sending ACK Packet")
-                logging.info("Sending ACK Packet")
+
+                print("Sending ACK Packet for Sequence Number: ", getattr(ack_packet, "seq_num"), "\n\n")
+                ack_pack_string = "Sending ACK Packet for Sequence Number: " +  str(getattr(ack_packet, "seq_num"))
+                logging.info(ack_pack_string)
+
                 find_ACK = self.findACKPacket(packet.seq_num)
                 #print("Finding aCK ",find_ACK)
                 if not find_ACK:
                     packets_total += 1
                 else:
                     dupe_ack_total += 1
-                    print("-----Duplicate ACK Occurred!-----")
+
+                    print("-----Duplicate ACK Occurred for Sequence Number: ", getattr(ack_packet, "seq_num"), "-----\n\n")
+                    dupe_ack_string = "-----Duplicate ACK Occurred for Sequence Number: " + str(getattr(ack_packet, "seq_num")) + "-----"
                     logging.info("-----Duplicate ACK Occurred!-----")
+
             self.asked_packets.append(packet)
     
 

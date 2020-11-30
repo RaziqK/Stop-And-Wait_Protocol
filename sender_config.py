@@ -7,6 +7,6 @@ sender_port = 8888
 receiver_address = "10.0.2.6"
 receiver_port = 8889
 
-max_packets = 14
-win_size = 4
+max_packets = 40
+win_size = 7
 timeout = 20
